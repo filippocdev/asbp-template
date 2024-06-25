@@ -5,6 +5,8 @@ services:
       context: ./backend
     ports:
       - 8080:8080
+    volumes:
+      - '/usr/src/app'
     
   # Front End
   frontend:

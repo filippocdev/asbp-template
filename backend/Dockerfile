@@ -1,15 +1,15 @@
-#
-# BUILD STAGE
-#
-FROM maven:3.9.7-amazoncorretto-17 AS build  
-COPY src /usr/src/app/src  
-COPY pom.xml /usr/src/app  
-RUN mvn -f /usr/src/app/pom.xml clean package
+# Use the official Maven image to build and run the application
+FROM maven:3.8.5-openjdk-17 AS build
 
-#
-# PACKAGE STAGE
-#
-FROM amazoncorretto:17-alpine
-COPY --from=build /usr/src/app/target/backend-0.0.1-SNAPSHOT.jar /usr/app/backend-0.0.1-SNAPSHOT.jar  
-EXPOSE 8080  
-CMD ["java","-jar","/usr/app/backend-0.0.1-SNAPSHOT.jar"]  
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the pom.xml file and download dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Copy the rest of the project files
+COPY src ./src
+
+# Run the Spring Boot application
+CMD ["mvn", "spring-boot:run"]
