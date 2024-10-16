@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/acquisto")
-public class AcquistoNoleggioController {
+public class AcquistoNoleggioRestController {
 
-    @Autowired
     private AcquistoNoleggioService acquistoNoleggioService;
 
     @GetMapping("/get/{acquistonoleggioID}")
